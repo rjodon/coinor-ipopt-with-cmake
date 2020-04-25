@@ -2,6 +2,14 @@
 # downloading/configuring/building/installing
 # Thirdparty dependencies
 
+if (APPLE)
+    # Disable annoying "has no symbols" warnings
+    set(CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+    set(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+    set(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+    set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+endif()
+
 option(COIN_ENABLE_DOWNLOAD_MUMPS        "Enable the download / compilation of Mumps" ON)
 option(COIN_ENABLE_DOWNLOAD_METIS        "Enable the download / compilation of Metis" ON)
 option(COIN_ENABLE_DOWNLOAD_ASL          "Enable the download / compilation of Ampl Solver Library" OFF)
@@ -91,9 +99,11 @@ if (COIN_ENABLE_DOWNLOAD_CLAPACK)
     set(CLAPACK_VERSION "3.2.1")
 
     if (UNIX)
+        set(CLAPACK_C_FLAGS      "-w")
+        set(CLAPACK_LINKER_FLAGS "-w")
         if (NOT HAVE_64_BIT)
-            set(CLAPACK_C_FLAGS      "-fPIC")
-            set(CLAPACK_LINKER_FLAGS "-fPIC")
+            set(CLAPACK_C_FLAGS      "-fPIC -w")
+            set(CLAPACK_LINKER_FLAGS "-fPIC -w")
         endif ()
     endif ()
 
@@ -148,9 +158,11 @@ if (COIN_ENABLE_DOWNLOAD_LAPACK)
     enable_language(Fortran)
 
     if (UNIX)
+        set(LAPACK_C_FLAGS      "-w")
+        set(LAPACK_LINKER_FLAGS "-w")
         if (NOT HAVE_64_BIT)
-            set(LAPACK_C_FLAGS      "-fPIC")
-            set(LAPACK_LINKER_FLAGS "-fPIC")
+            set(LAPACK_C_FLAGS      "-fPIC -w")
+            set(LAPACK_LINKER_FLAGS "-fPIC -w")
         endif ()
     endif ()
 
@@ -577,8 +589,8 @@ set(CMAKE_MAKE_PROGRAM "${CMAKE_MAKE_PROGRAM_OLD}")
 ## The original built-in commands are prefixed with an underscore if overriding any of them
 ## Prevent the modification of all sub-project
 
-macro(add_library _target)
-    _add_library (${_target} ${ARGN})
+macro(add_library_mod _target)
+    add_library (${_target} ${ARGN})
 
     if (COIN_ENABLE_DOWNLOAD_MUMPS)
         add_dependencies(${_target} EP_Mumps)
@@ -594,8 +606,8 @@ macro(add_library _target)
     endif ()
 endmacro ()
 
-macro(add_executable _target)
-    _add_executable (${_target} ${ARGN})
+macro(add_executable_mod _target)
+    add_executable (${_target} ${ARGN})
 
     if (COIN_ENABLE_DOWNLOAD_MUMPS)
         add_dependencies(${_target} EP_Mumps)

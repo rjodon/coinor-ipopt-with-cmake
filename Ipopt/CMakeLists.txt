@@ -297,9 +297,9 @@ if (IPOPT_HAS_AMPL)
 endif ()
 
 if (ENABLE_SHARED_LIBRARIES)
-    add_library(libipopt SHARED ${IPOPT_SRC_LIST})
+    add_library_mod(libipopt SHARED ${IPOPT_SRC_LIST})
 else ()
-    add_library(libipopt STATIC ${IPOPT_SRC_LIST})
+    add_library_mod(libipopt STATIC ${IPOPT_SRC_LIST})
     target_link_libraries(libipopt quadmath)
 endif ()
 if (COIN_COMPILE_LTO)
@@ -315,7 +315,7 @@ if (IPOPT_HAS_AMPL)
 
     add_definitions(-DIPOPTAMPL_BUILD)
 
-    add_executable(ipopt ${IPOPT_AMPL_SRC_LIST})
+    add_executable_mod(ipopt ${IPOPT_AMPL_SRC_LIST})
 
     target_link_libraries(ipopt libipopt)
     if (COIN_HAS_MUMPS)
@@ -409,7 +409,7 @@ if (IPOPT_BUILD_EXAMPLES)
             ${Ipopt_DIR}/examples/ScalableProblems/RegisteredTNLP.cpp
             ${Ipopt_DIR}/examples/ScalableProblems/solve_problem.cpp)
 
-    add_executable(solve_problem ${ScalableProblems_SRCS})
+    add_executable_mod(solve_problem ${ScalableProblems_SRCS})
     target_link_libraries(solve_problem libipopt)
     if (COIN_COMPILE_LTO)
         set_target_properties(solve_problem PROPERTIES INTERPROCEDURAL_OPTIMIZATION true)
@@ -652,7 +652,7 @@ if (IPOPT_BUILD_EXAMPLES)
     set(Cpp_example_SRCS ${Ipopt_DIR}/examples/Cpp_example/cpp_example.cpp
             ${Ipopt_DIR}/examples/Cpp_example/MyNLP.cpp)
 
-    add_executable(cpp_example ${Cpp_example_SRCS})
+    add_executable_mod(cpp_example ${Cpp_example_SRCS})
     target_link_libraries(cpp_example libipopt)
     if (COIN_COMPILE_LTO)
         set_target_properties(cpp_example PROPERTIES INTERPROCEDURAL_OPTIMIZATION true)
@@ -702,7 +702,7 @@ if (IPOPT_BUILD_EXAMPLES)
 
     set(hs071_c_SRCS ${Ipopt_DIR}/examples/hs071_c/hs071_c.c)
 
-    add_executable(hs071_c ${hs071_c_SRCS})
+    add_executable_mod(hs071_c ${hs071_c_SRCS})
     target_link_libraries(hs071_c libipopt)
     if (COIN_COMPILE_LTO)
         set_target_properties(hs071_c PROPERTIES INTERPROCEDURAL_OPTIMIZATION true)
@@ -753,7 +753,7 @@ if (IPOPT_BUILD_EXAMPLES)
     set(hs071_cpp_SRCS ${Ipopt_DIR}/examples/hs071_cpp/hs071_main.cpp
             ${Ipopt_DIR}/examples/hs071_cpp/hs071_nlp.cpp)
 
-    add_executable(hs071_cpp ${hs071_cpp_SRCS})
+    add_executable_mod(hs071_cpp ${hs071_cpp_SRCS})
     target_link_libraries(hs071_cpp libipopt)
     if (COIN_COMPILE_LTO)
         set_target_properties(hs071_cpp PROPERTIES INTERPROCEDURAL_OPTIMIZATION true)
@@ -813,7 +813,7 @@ if (IPOPT_BUILD_EXAMPLES)
         configure_file(${Ipopt_DIR}/examples/hs071_f/hs071_f.f.in ${CMAKE_BINARY_DIR}/hs071_f.f)
         set(hs071_f_SRCS ${CMAKE_BINARY_DIR}/hs071_f.f)
 
-        add_executable(hs071_f ${hs071_f_SRCS})
+        add_executable_mod(hs071_f ${hs071_f_SRCS})
         target_link_libraries(hs071_f libipopt)
         if (COIN_COMPILE_LTO)
             set_target_properties(hs071_f PROPERTIES INTERPROCEDURAL_OPTIMIZATION true)
