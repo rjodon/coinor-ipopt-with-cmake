@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-
+cmake_policy(SET CMP0075 NEW)
 project(IpOpt)
 
 # FUNNY_LAPACK_FINT
@@ -16,7 +16,7 @@ option(IPOPT_HAS_PARDISO_PARALLEL       "Enable if you are using the parallel ve
 option(IPOPT_HAS_HSL                    "Enable HSL interface"  OFF)
 option(IPOPT_HAS_WSMP                   "Enable WSMP solver"    OFF)
 option(IPOPT_HAS_MUMPS                  "Enable Mumps solver"   ON)
-option(IPOPT_BUILD_EXAMPLES             "Enable the building of examples" ON)
+option(IPOPT_BUILD_EXAMPLES             "Enable the building of examples" OFF)
 option(IPOPT_ENABLE_LINEARSOLVERLOADER  "Build the dynamic linear solver loader" OFF)
 option(IPOPT_ENABLE_PARDISOSOLVERLOADER "Build the dynamic pardiso solver loader" OFF)
 option(IPOPT_ENABLE_INEXACT             "Build the inexact solver" OFF)
