@@ -235,12 +235,13 @@ set(MUMPS_Z_SRCS src/zmumps_part1.F
                  src/zmumps_ooc.F
                  src/zmumps_struc_def.F)
 
+# Warnings are disabled
 if (WIN32)
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /fpp /nologo /reentrancy /fixed /warn:noalignments /Qsave /Qzero /libs:static /threads /traceback /D_CRT_SECURE_NO_WARNINGS /DALLOW_NON_INIT /Dintel_ ")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /nologo /D_CRT_SECURE_NO_WARNINGS /DAdd_ ")
 else ()
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -cpp -Wall -fcray-pointer -fall-intrinsics -finit-local-zero -DALLOW_NON_INIT -Dintel_ ")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DAdd_ ")
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -cpp -w -fcray-pointer -fall-intrinsics -finit-local-zero -DALLOW_NON_INIT -Dintel_ ")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -DAdd_ ")
 endif ()
 
 if (WIN32)
