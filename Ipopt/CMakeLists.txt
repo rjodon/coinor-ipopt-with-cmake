@@ -934,6 +934,7 @@ set(ALGORITHMS_HDRS ${Ipopt_DIR}/src/Algorithm/IpIpoptCalculatedQuantities.hpp
         ${Ipopt_DIR}/src/Algorithm/IpAugSystemSolver.hpp
         ${Ipopt_DIR}/src/Algorithm/IpPDSystemSolver.hpp)
 
+
 set(LINEARSOLVERS_HDRS ${Ipopt_DIR}/src/Algorithm/LinearSolvers/IpSymLinearSolver.hpp)
 
 set(ALL_HDRS ${LINALG_HDRS}
@@ -943,13 +944,19 @@ set(ALL_HDRS ${LINALG_HDRS}
         ${ALGORITHMS_HDRS}
         ${LINEARSOLVERS_HDRS})
 
-install(FILES ${ALL_HDRS}
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/coin)
+add_library_mod(lib_Ipopt_ext ${IPOPT_SRC_LIST} ${ALL_HDRS})
+target_link_libraries(lib_Ipopt_ext quadmath)
+set_target_properties(lib_Ipopt_ext PROPERTIES PREFIX "")
+set_include_directories(lib_Ipopt_ext)
+install(TARGETS lib_Ipopt_ext DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
-install(TARGETS libipopt
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/static)
-
-install(FILES AUTHORS
-        DESTINATION ${DATAROOTDIR}/coin/doc/Ipopt/)
+#install(FILES ${ALL_HDRS}
+#        DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/coin)
+#
+#install(TARGETS libipopt
+#        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
+#        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
+#        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/static)
+#
+#install(FILES AUTHORS
+#        DESTINATION ${DATAROOTDIR}/coin/doc/Ipopt/)

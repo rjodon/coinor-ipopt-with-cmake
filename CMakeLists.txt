@@ -16,7 +16,7 @@ option(IPOPT_HAS_PARDISO_PARALLEL       "Enable if you are using the parallel ve
 option(IPOPT_HAS_HSL                    "Enable HSL interface"  OFF)
 option(IPOPT_HAS_WSMP                   "Enable WSMP solver"    OFF)
 option(IPOPT_HAS_MUMPS                  "Enable Mumps solver"   ON)
-option(IPOPT_BUILD_EXAMPLES             "Enable the building of examples" ON)
+option(IPOPT_BUILD_EXAMPLES             "Enable the building of examples" OFF)
 option(IPOPT_ENABLE_LINEARSOLVERLOADER  "Build the dynamic linear solver loader" OFF)
 option(IPOPT_ENABLE_PARDISOSOLVERLOADER "Build the dynamic pardiso solver loader" OFF)
 option(IPOPT_ENABLE_INEXACT             "Build the inexact solver" OFF)
@@ -51,7 +51,7 @@ option(COIN_ENABLE_COMPAT            "Enable libc compatibility" OFF)   # Do not
 
 # Set paths of source
 set(COIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "The Cbc Path")
-
+message("COIN DIR: ${COIN_DIR}")
 set(COIN_COVERAGE_CTEST_LABEL "SAMPLE" CACHE PATH "The label sent to ctest during coverage")
 
 mark_as_advanced(ENABLE_SHARED_LIBRARIES
@@ -82,11 +82,15 @@ mark_as_advanced(ENABLE_SHARED_LIBRARIES
 
 # Set paths for binary and library generation inside the build directory:
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/ext/ipopt/Ipopt/src)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+message("${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}" )
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+message("${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}" )
+
+message("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+
 
 include(coin-macros)
 include(GetAcInitVersion)
@@ -659,6 +663,7 @@ if (IPOPT_HAS_WSMP)
     set(COINHSL_HAS_WSMP ON)
 endif ()
 
+message("Opening Ipopt dir")
 add_subdirectory(Ipopt)
 
 #
